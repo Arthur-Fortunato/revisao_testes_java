@@ -1,5 +1,6 @@
 package br.com.infnet;
 
+import br.com.infnet.client.EmailBlackListClient;
 import br.com.infnet.validador.FormValidator;
 import br.com.infnet.validador.PasswordPolicy;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,7 +14,7 @@ public class IdadeValidatorLimits {
     @BeforeEach
     void setUp(){
         passwordPolicy = new PasswordPolicy(0, true, true, true, true);
-        form = new FormValidator(passwordPolicy);
+        form = new FormValidator(passwordPolicy, new EmailBlackListClient());
     }
 
     @Test

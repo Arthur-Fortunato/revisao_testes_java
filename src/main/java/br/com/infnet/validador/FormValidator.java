@@ -1,16 +1,20 @@
 package br.com.infnet.validador;
 
+import br.com.infnet.client.BlackList;
 import br.com.infnet.client.EmailBlackListClient;
 
 public class FormValidator {
     private final PasswordPolicy policy;
     private final CpfUtils cpfUtils;
     private final EmailUtil emailUtil;
+    BlackList blackListClient;
 
-    public FormValidator(PasswordPolicy policy){
+
+    public FormValidator(PasswordPolicy policy, BlackList blackList) {
         this.policy = policy;
         cpfUtils = new CpfUtils();
         emailUtil = new EmailUtil();
+        blackListClient = blackList;
     }
 
     public boolean validarCpf(String cpf){
@@ -18,10 +22,8 @@ public class FormValidator {
     }
 
     public boolean validarEmail(String email){
-        EmailBlackListClient blackListClient = new EmailBlackListClient();
         if(!emailUtil.isWellFormed(email)) return false;
-        if(blackListClient.isBlackListed(email)) return false;
-        return true;
+        return !blackListClient.isBlackListed(email);
     }
 
     public boolean validarIdade(int idade){
